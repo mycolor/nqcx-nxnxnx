@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- velocityCache -->
+    <bean id="_velocityCache" class="java.lang.Boolean">
+        <constructor-arg>
+            <value>${velocity.cache}</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- timeSure -->
+    <bean id="_timeSure" class="java.lang.String">
+        <constructor-arg>
+            <value>${resource.time.sure}</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- info -->
+    <bean id="_NI" class="org.nqcx.nxnxnx.web.NI"/>
+
+    <!-- url -->
+    <bean id="_homeUrl" class="org.nqcx.commons.web.url.UrlBuilder">
+        <constructor-arg value="${url.web.home}"/>
+    </bean>
+    <bean id="_assetsUrl" class="org.nqcx.commons.web.url.UrlBuilder">
+        <constructor-arg value="${url.web.assets}"/>
+    </bean>
+
+    <!-- cookie -->
+    <bean id="cookieCipherTools" class="org.nqcx.commons.web.cookie.CookieCipherTools">
+        <property name="charsetName" value="UTF-8"/>
+    </bean>
+
+    <bean id="_nqcxCookie" class="org.nqcx.commons.web.cookie.NqcxCookie"
+          abstract="true">
+        <property name="cookieCipherTools">
+            <ref bean="cookieCipherTools"/>
+        </property>
+    </bean>
+</beans>

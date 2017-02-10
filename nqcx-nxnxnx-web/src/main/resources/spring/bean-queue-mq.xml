@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jmsFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL"
+                  value="failover:(${activemq.host})?initialReconnectDelay=${activemq.initialReconnectDelay}&amp;maxReconnectAttempts=${activemq.maxReconnectAttempts}"/>
+        <property name="userName" value="${activemq.userName}"/>
+        <property name="password" value="${activemq.password}"/>
+        <property name="useAsyncSend" value="true"/>
+    </bean>
+
+    <bean id="pooledJmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory" ref="jmsFactory"/>
+    </bean>
+
+    <bean id="mqJmsTemplate" class="org.nqcx.commons.mq.MqJmsTemplate">
+        <property name="connectionFactory" ref="pooledJmsFactory"/>
+    </bean>
+
+    <bean id="mqSender" class="org.nqcx.commons.mq.MqSender">
+        <constructor-arg ref="mqJmsTemplate"/>
+    </bean>
+
+    <bean id="nxnxnxRecevier" class="org.nqcx.commons.mq.MqJmsListenerContainer">
+        <property name="connectionFactory" ref="pooledJmsFactory"/>
+        <property name="messageListener">
+            <bean class="org.nqcx.nxnxnx.queue.NxnxnxRecevier"/>
+        </property>
+        <property name="jmsDestination">
+            <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                <property name="staticField"
+                          value="org.nqcx.nxnxnx.commons.mq.NxnxnxMqDestination.NXNXNX_QUEUE"/>
+            </bean>
+        </property>
+    </bean>
+</beans>

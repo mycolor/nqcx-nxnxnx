@@ -1,4 +1,11 @@
 #!/bin/bash
+
+##
+## 该工具用于快速拷贝一个多 module 的 project
+## 拷贝的 project 不需要做更改可以直接运行，project 中包含基于的项目要素
+## 由于 git 不管理空文件夹，空类用于保持文件夹目录，正式项目中删除即可
+##
+
 if [ $# != 2 ];then
         echo "Usage: $0 pname gmsg"
         exit 0

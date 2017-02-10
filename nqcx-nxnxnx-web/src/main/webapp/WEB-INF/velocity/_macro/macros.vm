@@ -1,0 +1,75 @@
+#macro(pageTitle $title $default)#if("$!title" != "")$!{title}#{else}#if("$!default" != "")$!{default}#{else}$!{nqcxValues.defaultTitle}#end#end#end
+
+#macro(page $page $params $formNum)
+    #if($page)
+    <form id="pageForm$!{formNum}" name="pageForm$!{formNum}" action="" method="post">
+        <input type="hidden" name="page" value="$!page.page">
+        #if($params)
+            #foreach($paramKey in ${params.keySet()})
+                <input type="hidden" name="$paramKey" value="$!{params.get($paramKey)}">
+            #end
+        #end
+    </form>
+    <div style="display: inline-block; line-height: 24px;height:24px;">
+            <span style="float: left;line-height: 24px;">共<em>
+                <label style="display: inline-block;margin-bottom: 0px;">$!page.totalCount</label></em>条，当前第$!page.page/$!page.totalPage页，每页$!page.pageSize条
+            </span>
+        <div style="float: right;line-height: 24px;">
+            #if($!page.totalPage > 1)
+                <a title="首页" class="disenable_up" disabled="disabled" href="javascript:void(0)" onclick="javascript:go$!{formNum}(1);">Home page</a>
+            #end
+            #if($!page.page > 1)
+                <a title="上一页" class="disenable_up" href="javascript:void(0)" onclick="javascript:go$!{formNum}($!page.previousPage);"><-</a>
+            #end
+            #if($!page.page < $!page.totalPage)
+                <a title="下一页" class="disabled_down" href="javascript:void(0)" onclick="javascript:go$!{formNum}($!page.nextPage);">Next Page</a>
+            #end
+            #if($!page.totalPage > 1)
+                <a title="尾页" class="disabled_down" href="javascript:void(0)" onclick="javascript:go$!{formNum}($!page.totalPage);">End Page</a>
+                <span style="margin-right: 10px;">
+                    <input id="goPage$!{formNum}" class="input-xs" style="width: 50px;margin:-4px 0 0;" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="" type="text"> <input onclick="goToPage$!{formNum}();" class="btn btn-default btn-xs" style="margin:-4px 0 0;" type="button" value="Go" style="cursor: pointer;">
+                </span>
+            #end
+        </div>
+        <script type="text/javascript">
+            function go$!{formNum}(page) {
+                document.pageForm$!{formNum}.page.value = page;
+                document.pageForm$!{formNum}.action = window.location.search;
+                document.pageForm$!{formNum}.submit();
+            }
+            function goToPage$!{formNum}() {
+                var regex = /^\d+$/;
+                var page = document.getElementById("goPage$!{formNum}").value;
+                if (!regex.test(page)) {
+                    alert("请输入数字！");
+                    return;
+                }
+                if ((page > $!page.totalPage)) {
+                    if ($!page.totalPage == 0) {
+                        alert("当前查询条件无数据!");
+                        return;
+                    } else if ($!page.totalPage == 1) {
+                        go$!{formNum}(page);
+                        return;
+                    } else {
+                        alert("请输入1~$!page.totalPage的页数！");
+                        return;
+                    }
+                }
+                go$!{formNum}(page);
+            }
+        </script>
+    </div>
+    #end
+#end
+
+
+#macro(page1 $page)
+    #page($page ,$params)
+#end
+
+#macro(page2 $dto)
+    #set($page = $dto.page)
+    #set($params = $dto.paramsMap)
+    #page($page ,$params)
+#end

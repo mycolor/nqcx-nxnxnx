@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application id="nqcx-nxnxnx-web" name="${dubbo.application.name}"/>
+    <dubbo:registry protocol="${dubbo.registry.protocol}" address="${dubbo.registry.address}"
+                    file="${dubbo.registry.file}"/>
+    <dubbo:protocol id="dubbo" host="${dubbo.protocol.host}" name="${dubbo.protocol.name}"
+                    port="${dubbo.protocol.port}"/>
+    <!--<dubbo:provider timeout="${dubbo.provider.timeout}" retries="0" threads="300" filter="${dubbo.provider.filter}"/>-->
+    <dubbo:monitor protocol="registry"/>
+    <dubbo:consumer check="false" retries="0" timeout="${dubbo.consumer.timeout}" filter="${dubbo.consumer.filter}"/>
+</beans>

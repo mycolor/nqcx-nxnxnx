@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- enable component scanning (beware that this does not enable mapper scanning!) -->
+    <context:component-scan base-package="org.nqcx.nxnxnx.cache,org.nqcx.nxnxnx.service"/>
+
+    <!--  配置文件，运行时替换 xml 里的占位符 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/config.properties</value>
+                <value>classpath:config/nqcx.properties</value>
+                <value>classpath:config/jdbc.properties</value>
+                <value>classpath:config/queue.properties</value>
+                <value>classpath:config/redis.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 全局 message，支持国际化，属性值可以在 java 程序、jsp、velocity、ftl...取到 -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="basenames">
+            <list>
+                <!-- 该配置文件是 nqcx-commons-web 包下的  gmsg/gmsg.properties -->
+                <value>gmsg.gmsg</value>
+                <!-- 该配置文件是 nqcx-nxnxnx-const 包下的 gmsg.1000_NXNXNX.properties -->
+                <value>gmsg.1000_NXNXNX</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 该配置文件是 nqcx-commons-web 包下 -->
+    <import resource="classpath:spring/bean-commons-result.xml"/>
+
+    <!-- 打包时，以下配置文件不进行占位符${}过滤和值替换 -->
+    <import resource="spring/bean-datasource.xml"/>
+    <import resource="spring/bean-dubbo.xml"/>
+    <import resource="spring/bean-mapper.xml"/>
+    <import resource="spring/bean-nqcx.xml"/>
+    <import resource="spring/bean-web.xml"/>
+
+    <!-- 打包时，以下配置文件需要进行占位符${}过滤和值替换 -->
+    <import resource="beans-special.xml"/>
+</beans>
