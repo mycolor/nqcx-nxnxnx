@@ -1,0 +1,49 @@
+#!/bin/bash
+if [ $# != 2 ];then
+        echo "Usage: $0 pname gmsg"
+        exit 0
+fi
+PNAME=$(echo $1 | tr '[A-Z]' '[a-z]')
+PNAME1=$(echo $1 | tr '[a-z]' '[A-Z]')
+GMSGNAME=$2'_'
+
+find . -type d -name ".idea" | xargs rm -rf
+find . -type f -name ".DS_Store" | xargs rm -rf
+find . -type f -name "*.iml" | xargs rm -rf
+
+find . -type f -name "*.xml" | xargs sed -i "" "s/nqcx-nxnxnx/nqcx-$PNAME/g"
+find . -type f -name "*.xml" | xargs sed -i "" "s/nxnxnx/$PNAME/g"
+find . -type f -name "*.xml" | xargs sed -i "" "s/1000_NXNXNX/$GMSGNAME$PNAME1/g"
+find . -type f -name "*.xml" | xargs sed -i "" "s/NXNXNX/$PNAME1/g"
+find . -type f -name "*.xml" | xargs sed -i "" "s/org.nqcx.nxnxnx/org.nqcx.$PNAME/g"
+find . -type f -name "*.java" | xargs sed -i "" "s/org.nqcx.nxnxnx/org.nqcx.$PNAME/g"
+find . -type f -name "*.properties" | xargs sed -i "" "s/nxnxnx/$PNAME/g"
+find . -type f -name "*.properties" | xargs sed -i "" "s/NXNXNX/$PNAME1/g"
+find . -type f -name "*.vm" | xargs sed -i "" "s/nxnxnx/$PNAME/g"
+find . -type f -name "*.vm" | xargs sed -i "" "s/NXNXNX/$PNAME1/g"
+
+mv ./nqcx-nxnxnx-common/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-common/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-const/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-const/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-const/src/main/resources/gmsg/1000_NXNXNX.properties ./nqcx-nxnxnx-const/src/main/resources/gmsg/$GMSGNAME$PNAME1.properties
+mv ./nqcx-nxnxnx-dao/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-dao/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-entity/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-entity/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-provide/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-provide/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-service/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-service/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-test/src/test/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-test/src/test/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-web/src/main/java/org/nqcx/nxnxnx ./nqcx-nxnxnx-web/src/main/java/org/nqcx/$PNAME
+mv ./nqcx-nxnxnx-web/src/main/resources/spring/nxnxnx-servlet.xml ./nqcx-nxnxnx-web/src/main/resources/spring/$PNAME-servlet.xml
+
+mv ./nqcx-nxnxnx-common ./nqcx-$PNAME-common
+mv ./nqcx-nxnxnx-const ./nqcx-$PNAME-const
+mv ./nqcx-nxnxnx-dao ./nqcx-$PNAME-dao
+mv ./nqcx-nxnxnx-entity ./nqcx-$PNAME-entity
+mv ./nqcx-nxnxnx-provide ./nqcx-$PNAME-provide
+mv ./nqcx-nxnxnx-service ./nqcx-$PNAME-service
+mv ./nqcx-nxnxnx-test ./nqcx-$PNAME-test
+mv ./nqcx-nxnxnx-web ./nqcx-$PNAME-web
+
+sed -i "" "s/nxnxnx/$PNAME/g" replace
+sed -i "" "s/1000_NXNXNX/$GMSGNAME$PNAME1/g" replace
+sed -i "" "s/NXNXNX/$PNAME1/g" replace
+
+
