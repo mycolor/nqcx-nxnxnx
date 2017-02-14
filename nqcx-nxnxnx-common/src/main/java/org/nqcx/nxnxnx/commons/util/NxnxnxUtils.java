@@ -4,7 +4,7 @@
  * it only in accordance with the terms of the license agreement you entered into with nqcx.org.
  */
 
-package org.nqcx.nxnxnx.util;
+package org.nqcx.nxnxnx.commons.util;
 
 /**
  * @author naqichuan 17/2/10 13:20
