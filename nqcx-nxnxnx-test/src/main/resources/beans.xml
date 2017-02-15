@@ -8,6 +8,7 @@
     <!-- enable component scanning (beware that this does not enable mapper scanning!) -->
     <context:component-scan base-package="org.nqcx.nxnxnx.cache,org.nqcx.nxnxnx.service"/>
 
+    <!-- 配置文件，运行时替换 xml 里的占位符 -->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="1"/>
@@ -24,20 +25,24 @@
         </property>
     </bean>
 
+    <!-- 全局 message，支持国际化，属性值可以在 java 程序、jsp、velocity、ftl...取到 -->
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="useCodeAsDefaultMessage" value="false"/>
         <property name="basenames">
             <list>
+                <!-- 该配置文件是 nqcx-commons-web 包下的  gmsg/gmsg.properties -->
                 <value>gmsg.gmsg</value>
             </list>
         </property>
     </bean>
 
+    <!-- 打包时，以下配置文件不进行占位符${}过滤和值替换 -->
     <import resource="spring/bean-datasource.xml"/>
     <import resource="spring/bean-dubbo.xml"/>
     <import resource="spring/bean-mapper.xml"/>
     <import resource="spring/bean-nqcx.xml"/>
 
+    <!-- 打包时，以下配置文件需要进行占位符${}过滤和值替换 -->
     <import resource="beans-special.xml"/>
 </beans>

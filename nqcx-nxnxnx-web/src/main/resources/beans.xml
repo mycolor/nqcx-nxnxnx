@@ -8,7 +8,7 @@
     <!-- enable component scanning (beware that this does not enable mapper scanning!) -->
     <context:component-scan base-package="org.nqcx.nxnxnx.cache,org.nqcx.nxnxnx.service"/>
 
-    <!--  配置文件，运行时替换 xml 里的占位符 -->
+    <!-- 配置文件，运行时替换 xml 里的占位符 -->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
